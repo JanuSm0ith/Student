@@ -76,6 +76,13 @@ namespace Student.Controllers
         [HttpPost]
         public async Task<IActionResult> AddStudentDetailAsync(Models.DTO.AddStudentDetailRequest addStudentDetailRequest)
         {
+         //validate the request
+            //if(!ValidateAddStudentDetailAsync(addStudentDetailRequest))
+            //{
+            //    return BadRequest(ModelState);
+            //}
+                
+            
             // Request(dto) to domain model
             var student = new Models.Domain.StudentDetail()
             {
@@ -132,8 +139,16 @@ namespace Student.Controllers
         [HttpPut]
         [Route("{id:guid}")]
 
-        public async Task<IActionResult> UpdateStudentDetailAsync([FromRoute]Guid id, [FromBody]Models.DTO.UpdateStudentDetailRequest updateStudentDetailRequest)
+        public async Task<IActionResult> UpdateStudentDetailAsync([FromRoute]Guid id, 
+            [FromBody]Models.DTO.UpdateStudentDetailRequest updateStudentDetailRequest)
         {
+            //validate the request 
+                     //if (!ValidateUpdateStudentDetailAsync(updateStudentDetailRequest))
+                     //{
+                     //    return BadRequest(ModelState);
+                
+                     //}
+
             //convert dto to domain model
             var student = new Models.Domain.StudentDetail
             {
@@ -146,8 +161,6 @@ namespace Student.Controllers
 
             //update region using repo
             student = await studentDetailRepository.UpdateAsync(id, student);
-
-
 
             //if null then not found
             if(student == null)
@@ -164,15 +177,76 @@ namespace Student.Controllers
 
             };
 
-
-            //return ok reponse
+           //return ok reponse
             return Ok(studentDTO);
 
         }
 
-        
+        #region Private methods
+        private bool ValidateAddStudentDetailAsync(Models.DTO.AddStudentDetailRequest addStudentDetailRequest)
+        {
+            if(addStudentDetailRequest == null)
+            {
+                ModelState.AddModelError(nameof(addStudentDetailRequest),
+                   $" Add StudentDetail is required ");
+
+                return false;
+
+            }
+            if (string.IsNullOrWhiteSpace(addStudentDetailRequest.Name))
+            {
+                ModelState.AddModelError(nameof(addStudentDetailRequest.Name),
+                    $"{nameof(addStudentDetailRequest.Name)} cannot be null or empty or whitespace.");
+                
+            }
+            if (string.IsNullOrWhiteSpace(addStudentDetailRequest.City))
+            {
+                ModelState.AddModelError(nameof(addStudentDetailRequest.City),
+                    $"{nameof(addStudentDetailRequest.City)} cannot be null or empty or whitespace.");
+
+            }
+            if(ModelState.ErrorCount>0)
+            {
+                return false;
+            }
+
+            return true;
+        }
 
 
-        
+        private bool ValidateUpdateStudentDetailAsync(Models.DTO.UpdateStudentDetailRequest updateStudentDetailRequest)
+        {
+            if (updateStudentDetailRequest == null)
+            {
+                ModelState.AddModelError(nameof(updateStudentDetailRequest),
+                   $" Add StudentDetail is required ");
+
+                return false;
+
+            }
+            if (string.IsNullOrWhiteSpace(updateStudentDetailRequest.Name))
+            {
+                ModelState.AddModelError(nameof(updateStudentDetailRequest.Name),
+                    $"{nameof(updateStudentDetailRequest.Name)} cannot be null or empty or whitespace.");
+
+            }
+            if (string.IsNullOrWhiteSpace(updateStudentDetailRequest.City))
+            {
+                ModelState.AddModelError(nameof(updateStudentDetailRequest.City),
+                    $"{nameof(updateStudentDetailRequest.City)} cannot be null or empty or whitespace.");
+
+            }
+            if (ModelState.ErrorCount>0)
+            {
+                return false;
+            }
+
+            return true;
+
+        }
+        #endregion
+
+
+
     }
 }
