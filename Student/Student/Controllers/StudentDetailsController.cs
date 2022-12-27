@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Student.Models.Domain;
 using Student.Repositories;
@@ -7,6 +8,7 @@ namespace Student.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class StudentDetailsController : Controller
     {
         private IStudentDetailRepository studentDetailRepository;
