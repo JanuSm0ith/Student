@@ -48,7 +48,7 @@ builder.Services.AddDbContext<StudentDetailsDbContext>(options =>
 });
 
 builder.Services.AddScoped<IStudentDetailRepository, StudentDetailRepository>();
-builder.Services.AddSingleton<IUserRepository, StaticUserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITokenHandler, Student.Repositories.TokenHandler>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
