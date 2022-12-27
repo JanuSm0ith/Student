@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Student.Data;
+using Student.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,10 @@ builder.Services.AddDbContext<StudentDetailsDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("StudentConnection"));
 });
+
+builder.Services.AddScoped<IStudentDetailRepository, StudentDetailRepository>();
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 var app = builder.Build();
 
