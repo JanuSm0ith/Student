@@ -12,43 +12,52 @@ namespace Student.Controllers
     public class StudentDetailsController : Controller
     {
         private IStudentDetailRepository studentDetailRepository;
-        private IMapper mapper;
+       // private IMapper mapper;
 
-        public IMapper Mapper { get; }
+       /// <summary>
+       //public IMapper Mapper { get; }
+       /// </summary>
+       /// <param name="studentDetailRepository"></param>
 
-        public StudentDetailsController(IStudentDetailRepository studentDetailRepository, IMapper mapper)
+        //public StudentDetailsController(IStudentDetailRepository studentDetailRepository, IMapper mapper)
+        //{
+        //    this.studentDetailRepository  =  studentDetailRepository;
+        //    this.mapper = mapper;
+
+        //}
+        public StudentDetailsController(IStudentDetailRepository studentDetailRepository)
         {
             this.studentDetailRepository  =  studentDetailRepository;
-            this.mapper = mapper;
+           
 
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> GetAllStudentDetailsAsync()
         {
            var students = await studentDetailRepository.GetAllAsync();
 
             //return DTO students
-            //var studentsDTO = new List<Models.DTO.StudentDetail>();
-            //students.ToList().ForEach(student =>
-            //{
-            //    var studentDTO = new Models.DTO.StudentDetail()
-            //    {
-            //        Id = student.Id,
-            //        Name = student.Name,
-            //        City = student.City,
+            var studentsDTO = new List<Models.DTO.StudentDetail>();
+            students.ToList().ForEach(student =>
+            {
+                var studentDTO = new Models.DTO.StudentDetail()
+                {
+                    Id = student.Id,
+                    Name = student.Name,
+                    City = student.City,
 
-            //    };
+                };
 
-            //    studentsDTO.Add(studentDTO);
+                studentsDTO.Add(studentDTO);
 
-            //});
+            });
 
-            var studentsDTO = mapper.Map<List<Models.DTO.StudentDetail>>(students);
+            //var studentsDTO = mapper.Map<List<Models.DTO.StudentDetail>>(students);
 
 
 
-            
+
             return Ok(studentsDTO);
 
         }
@@ -65,9 +74,10 @@ namespace Student.Controllers
             {
                 return NotFound();
             }
-            var studentDTO = mapper.Map<Models.DTO.StudentDetail>(student);
+           // var studentDTO = mapper.Map<Models.DTO.StudentDetail>(student);
+           //return Ok(studentDTO);
 
-            return Ok(studentDTO);
+            return Ok(student);
 
 
 

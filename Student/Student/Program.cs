@@ -50,7 +50,7 @@ builder.Services.AddDbContext<StudentDetailsDbContext>(options =>
 builder.Services.AddScoped<IStudentDetailRepository, StudentDetailRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITokenHandler, Student.Repositories.TokenHandler>();
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
+//builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
